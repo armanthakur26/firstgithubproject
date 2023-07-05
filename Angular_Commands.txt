@@ -1,0 +1,62 @@
+-------------------------------------------Angular Commands-------------------------------------------
+NPM istall>
+npm install -g @angular/cli
+
+To Check Version> 
+ng version
+
+To Create Project>
+ng new projectname
+
+Routing Yes>
+routing y
+
+CSS select SCSS>
+css scss
+
+To Run Project In VS-Code>
+code .
+
+To Run Project>
+ng serve --open
+(ng s --o)
+
+To Generate New Componant> 
+ng generate component componantName
+(ng g c componantName)
+
+
+Install Packages>
+npm install jquery@3 --save
+npm install popper.js@1 --save
+npm install bootstrap@4 --save
+npm install font-awesome@4 --save
+
+
+Packages Paths In Project Folder>
+
+              "node_modules/bootstrap/dist/css/bootstrap.css",
+              "node_modules/font-awesome/css/font-awesome.css"
+
+              "node_modules/jquery/dist/jquery.js",
+              "node_modules/popper.js/dist/umd/popper.js",
+              "node_modules/bootstrap/dist/js/bootstrap.js"
+
+
+
+---------------------------------API ACCESS STEPS-------------------------------------------------------------------------
+To Create Model/Class>
+ng generate class className
+(ng g class className)
+
+To Create Service>
+ng generate service className
+(ng g service className)
+
+-------------------------------------JWT INTERCEPTER------------------
+INTERCEPTER---------------SERVICE--------------APP MODULE
+
+
+
+ACTIVEGUARD-----------
+npm install @auth0/angular-jwt --save
