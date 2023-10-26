@@ -1,0 +1,39 @@
+ rating refersh 
+const handleRatingChange = async (ratingValue, order) => {
+    try {
+      await axios.post('https://localhost:7247/api/Rating', {
+        booksRatingValue: ratingValue,
+        userId: order.userId,
+        bookId: order.bookId,
+      });
+  
+      // Update the userrating state with the new rating value
+      const updatedUserRating = [...userrating];
+      const index = updatedUserRating.findIndex((e) => e.bookId === order.bookId);
+      if (index !== -1) {
+        updatedUserRating[index] = { ...updatedUserRating[index], booksratingValue: ratingValue };
+      } else {
+        updatedUserRating.push({ bookId: order.bookId, booksratingValue: ratingValue });
+      }
+      
+      setUserrating(updatedUserRating);
+  
+      ratingAlert();
+      console.log('Rating submitted successfully');
+    } catch (error) {
+      console.log('Something went wrong:', error);
+    }
+  };  
+
+
+
+
+
+  {/* <b>Rating:</b>
+                    {Array.from({ length: 5 }, (_, index) => (
+                      <FontAwesomeIcon
+                        key={index}
+                        icon={faStar}
+                        className={`star-icon ${index < userrating.find(e => e.bookId === order.bookId)?.booksratingValue ? 'selected' : 'unselected'}`}
+                      />
+                    ))} */}

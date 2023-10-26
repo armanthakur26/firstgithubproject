@@ -1,0 +1,457 @@
+Library Project Task-
+
+
+frontend React 
+backend .Net
+
+
+
+
+                      to start a project -------------  in cmd     
+
+
+
+    npx create-react-app my-react-app
+
+     then   code . 
+
+now in react cd my-react-app   ( agar folder mai bnaya ho to) 
+              npm start 
+
+bootstrap getting started mai jake css or js file copy krke 
+
+or public index.html head mai paste krr dye orr firr
+npm install bootstrap kre 
+npm install axios  bi download krr lye
+ab navbaar bna k routing krni hai to uske liye 
+React Router Dom is used to build single-page applications i.e. applications that have many pages or components but the page is never refreshed instead the content is dynamically fetched based on the URL. This process is called Routing and it is made possible with the help of React Router Dom
+
+npm install react-router-dom   
+
+
+routing example--
+
+create 3 files:
+
+page1.js
+page2.js
+page3.js
+
+
+
+import React from 'react'
+
+export default function Page1() {
+	return (
+		<div>
+			<h1>Page 1</h1>
+		</div>
+	)
+}
+
+import React from 'react'
+
+export default function Page2() {
+	return (
+		<div>
+			<h1>Page 2</h1>
+		</div>
+	)
+}
+import React from 'react'
+
+export default function Page3() {
+	return (
+		<div>
+			<h1>Page 3</h1>
+		</div>
+	)
+}
+
+
+							App.js
+
+import { BrowserRouter as Router, Route, Link, Switch }
+	from "react-router-dom";
+
+// Import the pages
+
+import Page1 from "./Components/page1"
+import Page2 from "./Components/page2"
+import Page3 from "./Components/page3"
+
+// Import css
+import "./app.css"
+
+function App() {
+	return (
+		<div className="App">
+			<Router>
+				<Switch>
+					<Route exact path="/" element={<h1>Home Page</h1>} />
+					<Route exact path="page1" element={<Page1 />} />
+					<Route exact path="page2" element={<Page2 />} />
+					<Route exact path="page3" element={<Page3 />} />
+				</Switch>
+				<div className="list">
+					<ul>
+						<li><Link to="/">Home</Link></li>
+						<li><Link to="page1">Page 1</Link></li>
+						<li><Link to="page2">Page 2</Link></li>
+						<li><Link to="page3">Page 3</Link></li>
+					</ul>
+				</div>
+			</Router>
+		</div>
+	);
+}
+export default App;
+
+ya fir app.js mai routing na krke ik baar hi   
+book: {
+      name: "/book",
+      component: <Book/>,
+    },
+    dashboard:{
+      name:"/Dashboard",
+      component:<Dashboard/>
+    },
+    login:{
+      name:"/login",
+      component:<Login/>
+    },
+esse bi routing krr skte hai.
+
+				in react api kaise call krr skte hai
+
+
+In React, we can make the API call in the following ways
+
+XMLHttpRequest
+Fetch API
+Axios
+
+
+1. XMLHttpRequest
+In JavaScript, the XMLHttpRequest object is an API for sending HTTP requests from a web page to a server. It is a low-level API because it only provides a basic mechanism for making HTTP requests and leaves it up to the developer to parse the response, handle errors, and manage the request’s state. Here’s an example of how it can make an API call;
+
+import React, { useState } from 'react';
+
+function Example() {
+  const [data, setData] = useState(null);
+
+  function handleClick() {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', 'https://api.example.com/data');
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        setData(JSON.parse(xhr.responseText));
+      }
+    };
+    xhr.send();
+  }
+
+  return (
+    <div>
+      <button onClick={handleClick}>Get Data</button>
+      {data ? <div>{JSON.stringify(data)}</div> : <div>Loading...</div>}
+    </div>
+  );
+}
+2. Fetch API
+The Fetch API is a modern, promise-based API for making HTTP requests in JavaScript. It provides a simple and flexible interface for making GET, POST, PUT, and DELETE requests and handling the response from the server.
+
+Here’s an example of how you can use the Fetch API to make a GET request to retrieve data from a server in a React component:
+
+import React, { useState, useEffect } from 'react';
+
+function App() {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    fetch('https://api.example.com/data')
+      .then(response => response.json())
+      .then(json => setData(json))
+      .catch(error => console.error(error));
+  }, []);
+
+  return (
+    <div>
+      {data ? <pre>{JSON.stringify(data, null, 2)}</pre> : 'Loading...'}
+    </div>
+  );
+}
+
+export default App;
+The main difference between XMLHttpRequest and the Fetch API is that XMLHttpRequest is an older, more established API that has been around since the early days of the web, while the Fetch API is a more modern API that was introduced in modern browsers to provide a simpler and more flexible way to make HTTP requests.
+
+Here are some of the key differences between XMLHttpRequest and the Fetch API:
+
+Simpler Syntax: The Fetch API uses a more concise and intuitive syntax that is easier to read and write. With the Fetch API, you can make a request and handle the response using a single function call, while with XMLHttpRequest, you need to create an instance of the XMLHttpRequest object, set properties, and register event listeners.
+Better Error Handling: The Fetch API provides a more straightforward and automatic error handling mechanism using Promises, which makes it easier to write robust and maintainable code. With XMLHttpRequest, error handling requires the use of callbacks and manual error checking, which can make the code more complex and harder to maintain.
+Automatic Type Conversion: The Fetch API provides automatic type conversion for request and response data, making it easier to work with JSON data, for example. With XMLHttpRequest, we must parse the response data manually, which can be error-prone and time-consuming.
+The Fetch API offers several advantages over XMLHttpRequest. Despite XMLHttpRequest's reliability and wide usage, the Fetch API has a more modern and user-friendly interface for making HTTP requests and handling the responses.
+
+3. Axios
+Axios is a popular JavaScript library for making HTTP requests, and it works great with React. Axios makes it easy to send asynchronous HTTP requests to REST endpoints and perform CRUD operations (create, read, update, and delete), as well as handle the responses.
+
+Here’s how you can use Axios in your React application:
+
+Install Axios: You can install Axios by running the following command in your terminal:
+npm install axios
+2. To use Axios, you’ll need to import it into your React component, like this:
+
+
+
+mainlly user 
+
+
+
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
+function App() {
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    axios.get('https://jsonplaceholder.typicode.com/posts')
+      .then(response => {
+        setPosts(response.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, []);
+
+  return (
+    <ul>
+      {posts.map(post => (
+        <li key={post.id}>{post.title}</li>
+      ))}
+    </ul>
+  );
+}
+
+export default App;
+
+
+
+
+
+
+
+
+Now i make register page-
+
+import React, { useState } from 'react';
+import axios from 'axios';
+
+const RegistrationForm = () => {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [mobile, setMobile] = useState('');
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      const response = await axios.post('https://localhost:7247/api/User/register', {
+        firstName,
+        lastName,
+        email,
+        mobile
+      });
+
+      console.log(response.data); // Check the server response in the console
+
+      // Show the success popup
+      setShowSuccessPopup(true);
+    } catch (error) {
+      console.error('Registration failed:', error.response?.data?.message || 'Unknown error');
+      // Handle registration error here (e.g., show an error message to the user)
+      alert('Registration failed. Please try again.');
+    }
+  };
+  const handleClosePopup = () => {
+    setShowSuccessPopup(false);
+  };
+  return (
+    <form onSubmit={handleSubmit}>
+      <section
+        className="vh-80 m-2 d-flex justify-content-center align-items-center"
+        style={{
+          background: 'linear-gradient(rgba(3, 3, 3, 0.5), rgba(0, 10, 0, 0.5)), url(https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp) center/cover no-repeat',
+          borderRadius: '10px'
+        }}
+      >
+        <div className="container">
+          <div className="row justify-content-center">
+            <div className="col-md-10 col-lg-6 col-xl-5">
+              <div className="card text-black" style={{ borderRadius: '10px', background: 'rgba(290, 290, 255, 0.8)' }}>
+                <div className="card-body">
+                  <div className="text-center">
+                    <p className="h1 fw-bold mb-5 mt-4">Sign up</p>
+                  </div>
+
+                  <div className="mb-4">
+                    <i className="fas fa-user fa-lg me-3 fa-fw"></i>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={firstName}
+                      onChange={(event) => setFirstName(event.target.value)}
+                      required
+                      placeholder="Enter your FirstName"
+                    />
+                  </div>
+
+                  <div className="mb-4">
+                    <i className="fas fa-user fa-lg me-3 fa-fw"></i>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={lastName}
+                      onChange={(event) => setLastName(event.target.value)}
+                      placeholder="Enter your LastName"
+                    />
+                  </div>
+
+                  <div className="mb-4">
+                    <i className="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                    <input
+                      type="email"
+                      className="form-control"
+                      value={email}
+                      onChange={(event) => setEmail(event.target.value)}
+                      required
+                      placeholder="Email"
+                    />
+                  </div>
+
+                  <div className="mb-4">
+                    <i className="fas fa-user fa-lg me-3 fa-fw"></i>
+                    <input
+                      type="number"
+                      className="form-control"
+                      value={mobile}
+                      onChange={(event) => setMobile(event.target.value)}
+                      placeholder="Enter your Mobile no."
+                    />
+                  </div>
+
+                  <button type="submit" className="btn btn-outline-primary m-1">
+                    Register
+                  </button>
+
+                  <p>
+                    Already registered?
+                    <br />
+                    <span className="line">
+                      <a href="/Login">Sign In</a>
+                    </span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {showSuccessPopup && (
+        <div
+          className="position-fixed top-0 bottom-0 start-0 end-0 d-flex justify-content-center align-items-center"
+          style={{ background: 'rgba(0, 0, 0, 0.5)' }}
+        >
+          <div
+            className="card text-black p-4"
+            style={{ borderRadius: '10px', background: 'rgba(255, 255, 255, 0.8)' }}
+          >
+            <p className="h4 fw-bold mb-3 text-center">Email sent to your id</p>
+            <button
+              type="button"
+              className="btn btn-outline-primary mx-auto d-block"
+              onClick={handleClosePopup}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+  
+      </section>
+    </form>
+  );
+};
+
+export default RegistrationForm;
+----------------------------------------------------------------------------------------------------------------------------------------------
+This is a React functional component that renders a registration form for users. Let's explain each line of the code:
+
+1. `import React, { useState } from 'react';`: Importing necessary modules, including React and `useState` hook from React.
+
+2. `import axios from 'axios';`: Importing the Axios library for making HTTP requests.
+
+3. `const RegistrationForm = () => {`: Defining the functional component `RegistrationForm` using an arrow function.
+
+4. `const [firstName, setFirstName] = useState('');`: Using the `useState` hook to define a state variable `firstName` and its corresponding setter function `setFirstName`. The initial state of `firstName` is an empty string.
+
+5. `const [lastName, setLastName] = useState('');`: Similar to the previous line, it defines a state variable `lastName` and its setter function `setLastName`.
+
+6. `const [email, setEmail] = useState('');`: Similar to the previous lines, it defines a state variable `email` and its setter function `setEmail`.
+
+7. `const [mobile, setMobile] = useState('');`: Similar to the previous lines, it defines a state variable `mobile` and its setter function `setMobile`.
+
+8. `const [showSuccessPopup, setShowSuccessPopup] = useState(false);`: It defines a state variable `showSuccessPopup` and its setter function `setShowSuccessPopup`. The initial state of `showSuccessPopup` is `false`, indicating that the success popup is not visible initially.
+
+9. `const handleSubmit = async (event) => {`: Defining the `handleSubmit` function, which is called when the registration form is submitted. It is marked as `async` to allow the use of `await` for the asynchronous Axios request.
+
+10. `event.preventDefault();`: Prevents the default form submission behavior, allowing us to handle the form submission manually.
+
+11. `try { ... } catch (error) { ... }`: The `try` block is used to wrap the asynchronous code that sends the registration data to the server using Axios. If there is an error during the registration process, it will be caught in the `catch` block, allowing us to handle it gracefully.
+
+12. `const response = await axios.post('https://localhost:7247/api/User/register', { ... });`: It makes a POST request to the specified URL (`https://localhost:7247/api/User/register`) using Axios with the registration data (firstName, lastName, email, mobile) as the request payload. The `await` keyword ensures that we wait for the response before moving to the next line of code.
+
+13. `console.log(response.data);`: Outputs the data returned by the server in the console. This can be useful for debugging purposes.
+
+14. `setShowSuccessPopup(true);`: Sets the state variable `showSuccessPopup` to `true`, triggering the display of the success popup after a successful registration.
+
+15. `} catch (error) { ... }`: The catch block is executed if an error occurs during the Axios request. It logs the error message to the console and displays an alert with a generic error message to the user.
+
+16. `const handleClosePopup = () => { ... }`: Defines the `handleClosePopup` function, which is called when the user clicks the "Close" button in the success popup. It sets the `showSuccessPopup` state variable to `false`, hiding the success popup.
+
+17. The return statement starts here, and it returns the JSX elements to be rendered.
+
+18. `<form onSubmit={handleSubmit}>`: The form element with an `onSubmit` event handler set to `handleSubmit`, which will be called when the form is submitted.
+
+19. The section element contains the entire registration form, including background styling and card layout.
+
+20. `<div className="container"> ... </div>`: The container div that holds the card.
+
+21. `<div className="row justify-content-center"> ... </div>`: A row with content centered horizontally.
+
+22. `<div className="col-md-10 col-lg-6 col-xl-5"> ... </div>`: A column with responsive width classes.
+
+23. `<div className="card text-black" ...> ... </div>`: A card with text color set to black and additional styling.
+
+24. `<div className="card-body"> ... </div>`: The card body containing the registration form elements.
+
+25. Input fields for first name, last name, email, and mobile number. Each input has its value set to the corresponding state variable, and the `onChange` event is used to update the state when the user types in the input field.
+
+26. `<button type="submit" className="btn btn-outline-primary m-1">Register</button>`: The submit button for the registration form.
+
+27. `<p>Already registered? ... </p>`: A paragraph containing a link to the login page for users who are already registered.
+
+28. `{showSuccessPopup && ( ... )}`: A conditional rendering based on the `showSuccessPopup` state variable. If `showSuccessPopup` is `true`, the success popup is displayed.
+
+29. `<div className="position-fixed top-0 bottom-0 start-0 end-0 d-flex ...>`: A fixed position div that covers the entire screen, used for the success popup.
+
+30. `<div className="card text-black p-4" ...>`: The card containing the success message.
+
+31. `<button type="button" className="btn btn-outline-primary mx-auto d-block" onClick={handleClosePopup}>Close</button>`: The "Close" button inside the success popup, which calls the `handleClosePopup` function when clicked.
+
+32. `}</section>`: Closes the section element wrapping the entire form.
+
+33. `export default RegistrationForm;`: Exports the `RegistrationForm` component to be used in other parts of the application.
+
+Overall, this code creates a simple registration form that collects the user's first name, last name, email, and mobile number. When the form is submitted, it sends the data to the server using Axios, and if the registration is successful, it displays a success popup to the user.
+

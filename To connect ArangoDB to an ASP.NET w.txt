@@ -1,0 +1,118 @@
+To connect ArangoDB to an ASP.NET web API .Net 6 and create functions to add a department and employee data, you need to use `ArangoDBNetStandard` NuGet package which provides .Net standard interface for ArangoDB.
+
+First, you have to install this NuGet package using Package Manager Console:
+```
+Install-Package ArangoDBNetStandard
+```
+
+Then, you can implement the code as per below:
+
+*appsettings.json*:
+```json
+{
+  "ArangoDB": {
+    "Hostname": "localhost",
+    "Port": 8529,
+    "Username": "root",
+    "Password": "root",
+    "Database": "_system"
+  }
+}
+```
+Add ArangoDB configuration in DI (Dependency Injection) system in *Program.cs*:
+```csharp
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+
+builder.Services.Configure<ArangoDBSettings>(builder.Configuration.GetSection("ArangoDB"));
+builder.Services.AddScoped<IArangoDBClient, ArangoDBClient>();
+
+// Build application
+var app = builder.Build();
+```
+In this case, `ArangoDBSettings` and `ArangoDBClient` are imaginary classes/interfaces you would need to create based on the ArangoDBNetStandard library.
+
+*ArangoDBSettings.cs*:
+```csharp
+public class ArangoDBSettings
+{
+    public string Hostname { get; set; }
+    public int Port { get; set; }
+    public string Username { get; set; }
+    public string Password { get; set; }
+    public string Database { get; set; }
+}
+```
+*ArangoDBClient.cs*:
+```csharp
+public class ArangoDBClient : IArangoDBClient
+{
+	private readonly ArangoDBClient _client;
+
+	public ArangoDBClient(IOptions<ArangoDBSettings> settings)
+	{
+		TransportKind transport = TransportKind.Vst;
+		ApiClientSerialization serializer;
+		
+		if (transport == TransportKind.Vst)
+		{
+			serializer = new VelocyPackApiClientSerialization();
+		}
+		else 
+		{
+			serializer = new NewtonsoftJsonApiClientSerialization();
+		}
+		
+		var clientConfiguration = new Http.Client.HttpApiClientConfiguration(new Uri($"http://{settings.Value.Hostname}:{settings.Value.Port}"), settings.Value.Username, settings.Value.Password,
+			"","database", transport, serializer);
+			
+		_client = new ArangoDBClient(clientConfiguration);
+	}
+	
+	// Define methods to interact with ArangoDB
+}
+```
+*Controllers/CompanyController.cs*:
+```csharp
+[ApiController]
+[Route("[controller]")]
+public class CompanyController : ControllerBase
+{
+	private IArangoDBClient _client;
+
+	public CompanyController(IArangoDBClient client)
+	{
+		_client = client;
+	}
+
+	[HttpPost("department")]
+	public async Task<IActionResult> AddDepartment([FromBody] Department department)
+	{
+		var response = await _client.InsertDocumentAsync("department", department);
+
+		if (response.IsSuccess)
+			return Ok(response.Result);
+
+		return BadRequest(response.Result);
+	}
+
+	[HttpPost("employee")]
+	public async Task<IActionResult> AddEmployee([FromBody] Employee employee)
+	{
+		var response = await _client.InsertDocumentAsync("employee", employee);
+
+		if (response.IsSuccess)
+			return Ok(response.Result);
+
+		return BadRequest(response.Result);
+	}
+}
+```
+Please replace `"department"` and `"employee"` with the correct collection names in your ArangoDB. 
+
+In the `Department` and `Employee` classes, define the properties exactly as sitting in your ArangoDB collections.
+
+This is a simplified example on how you could do it, for more complex queries or operations you may want to look up ArangoDBNetStandard GitHub repository and go through their documentation. Also, make sure you are in compliance with your organization's security standards when managing the credentials.
+
+The actual method to interact with ArangoDB might vary based on the library versions and the specific requirements of your project.  

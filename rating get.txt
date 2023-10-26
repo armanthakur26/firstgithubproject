@@ -1,0 +1,346 @@
+rating get
+// import React, { useEffect, useState } from 'react';
+// import axios from 'axios';
+// import './MyOrder.css';
+// import Swal from 'sweetalert2'
+
+// const Myreadouts = () => {
+//   const [orders, setOrders] = useState([]);
+//   const token = localStorage.getItem('token');
+//   const [rating, setRating] = useState({});
+  
+//   useEffect(() => {
+//     if (token) {
+//       fetchOrders();
+//     };
+//   }, [token]);
+
+//   const getUserIdFromToken = () => {
+//     try {
+//       const base64Url = token.split('.')[1];
+//       const base64 = base64Url.replace('-', '+').replace('_', '/');
+//       const decodedToken = JSON.parse(window.atob(base64));
+//       return decodedToken.unique_name;
+//     } catch (error) {
+//       console.error('Error decoding token:', error);
+//       return null;
+//     }
+//   };
+//   const fetchOrders = async () => {
+//     const userId = getUserIdFromToken();
+
+//     if (userId) {
+//       try {
+//         const response = await axios.get(`https://localhost:7247/api/Orders/myreadoutbooks/${userId}`);
+//         const ordersData = response.data;
+
+//         const ordersWithTitlesAndUsers = await Promise.all(
+//           ordersData.map(async (order) => {
+//             const book = await fetchBookTitle(order.bookId);
+//             const user = await fetchUserDetails(order.userId);
+//             return { ...order, book: book, user: user };
+//           })
+//         );
+//         setOrders(ordersWithTitlesAndUsers);
+//       } catch (error) {
+//         console.error('Error fetching orders:', error);
+//       }
+//     }
+//   };
+
+//   const fetchBookTitle = async (bookId) => {
+//     try {
+//       const response = await axios.get(`https://localhost:7247/api/Books/${bookId}`);
+//       return response.data; 
+//     } catch (error) {
+//       console.error('Error fetching book title:', error);
+//       return 'Book Title Not Found'; 
+//     }
+//   };
+
+//   const fetchUserDetails = async (userId) => {
+//     try {
+//       const response = await axios.get(`https://localhost:7247/api/User/${userId}`);
+//       return response.data; 
+//     } catch (error) {
+//       console.error('Error fetching user details:', error);
+//       return { name: 'User Not Found' }; 
+//     }
+//   };
+
+//   const formatDate = (dateString) => {
+//     const date = new Date(dateString);
+//     return date.toLocaleDateString();
+//   };
+
+//   const handleRatingChange = (event, order) => {
+//     const updatedRatingValues = { ...rating };
+//     updatedRatingValues[order.id] = parseInt(event.target.value);
+//     setRating(updatedRatingValues);
+//   };
+//   const handleSubmit = async (event, order) => {
+//     event.preventDefault();
+//     const booksRatingValue = rating[order.id];
+//     if (booksRatingValue) {
+//       try {
+//         const response = await axios.post('https://localhost:7247/api/Rating', {
+//           booksRatingValue,
+//           userId: order.userId,
+//           bookId: order.bookId,
+//         });
+//         ratingAlert();
+//         setRating('');
+//         console.log('Rating submitted successfully');
+//       } catch (error) {
+//         console.log('Something went wrong:', error);
+//       }
+//     } else {
+//       ratingerror();
+//     }
+//   };
+//   const ratingAlert = () => {
+//     Swal.fire({  
+//         title: 'Rating Done successfully',  
+//         text: 'Thanku for giving rating',
+//         icon: 'success'
+//       }); 
+// }
+//  const ratingerror=()=>{
+//   Swal.fire({
+//     title: 'Error',
+//     text: 'Please select a rating ',
+//     icon: 'error'
+//   });
+//  }
+//   return (
+//     <div className="orders-container">
+//       <h1>My Orders</h1>
+//       <div className="approved-orders">
+//         <h2>ReadOuts Orders</h2>
+//         {orders.length === 0 ? (
+//           <p className="text-danger center">No results found</p>
+//         ) : (
+//           orders.map((order) => (
+//             order.isApproved && (
+//               <div key={order.id} className="order-details">
+//                 <img src={order.book.image} alt="Book Image" />
+//                 <div className="order-info">
+//                   <p>
+//                     <b>Book Name:</b> {order.book.title}<br />
+//                     <b>Email:</b> {order.user.email}<br />
+//                     <b>Contact No:</b> {order.user.mobile}<br />
+//                     <b>Order Date:</b> {formatDate(order.createdOn)}<br />
+//                     <b>Last Return Date:</b> {formatDate(order.retrunOn)}<br />
+//                     <b>Book Status:</b> Done<br/>
+//                     <b>Give Rating:</b>
+//                     <select
+//                       value={rating[order.id] || ''}
+//                       onChange={(e) => handleRatingChange(e, order)}
+//                     >
+//                       <option value="">Select Rating</option>
+//                       <option value="1">1</option>
+//                       <option value="2">2</option>
+//                       <option value="3">3</option>
+//                       <option value="4">4</option>
+//                       <option value="5">5</option>
+//                     </select>
+//                     <button onClick={(e) => handleSubmit(e, order)}>Submit</button>
+//                   </p>
+//                 </div>
+//               </div>
+//             )
+//           ))
+//         )}
+//       </div>
+//     </div>
+//   );
+// };
+// export default Myreadouts;
+
+
+
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import './MyOrder.css';
+import Swal from 'sweetalert2';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
+import '@fortawesome/fontawesome-svg-core/styles.css';
+
+const Myreadouts = () => {
+  const [orders, setOrders] = useState([]);
+  const token = localStorage.getItem('token');
+  const [rating, setRating] = useState({});
+  const [ratings, setRatings] = useState([]);
+
+  useEffect(() => {
+    if (token) {
+      fetchOrders();
+    }
+    rat();
+  }, [token]);
+
+  const rat=()=>{
+    const userId = getUserIdFromToken();
+    fetch(`https://localhost:7247/api/Rating/BookidUserId/6?userId=${userId}`)
+      .then(response => response.json())
+      .then(data => setRatings(data))
+      .catch(error => console.error('Error fetching data:', error));
+  }
+  const getUserIdFromToken = () => {
+    try {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace('-', '+').replace('_', '/');
+      const decodedToken = JSON.parse(window.atob(base64));
+      return decodedToken.unique_name;
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      return null;
+    }
+  };
+
+  const fetchOrders = async () => {
+    const userId = getUserIdFromToken();
+
+    if (userId) {
+      try {
+        const response = await axios.get(`https://localhost:7247/api/Orders/myreadoutbooks/${userId}`);
+        const ordersData = response.data;
+
+        const ordersWithTitlesAndUsers = await Promise.all(
+          ordersData.map(async (order) => {
+            const [book, user] = await Promise.all([
+              fetchBookTitle(order.bookId),
+              fetchUserDetails(order.userId)
+            ]);
+            return { ...order, book, user };
+          })
+        );
+
+        setOrders(ordersWithTitlesAndUsers);
+      } catch (error) {
+        console.error('Error fetching orders:', error);
+      }
+    }
+  };
+
+  const fetchBookTitle = async (bookId) => {
+    try {
+      const response = await axios.get(`https://localhost:7247/api/Books/${bookId}`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching book title:', error);
+      return { title: 'Book Title Not Found', image: '' };
+    }
+  };
+
+  const fetchUserDetails = async (userId) => {
+    try {
+      const response = await axios.get(`https://localhost:7247/api/User/${userId}`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching user details:', error);
+      return { email: 'User Not Found', mobile: '' };
+    }
+  };
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString();
+  };
+
+  const handleRatingChange = (ratingValue, order) => {
+    setRating({ ...rating, [order.id]: ratingValue });
+  };
+
+  const handleSubmit = async (event, order) => {
+    event.preventDefault();
+    const booksRatingValue = rating[order.id];
+    if (booksRatingValue) {
+      try {
+        await axios.post('https://localhost:7247/api/Rating', {
+          booksRatingValue,
+          userId: order.userId,
+          bookId: order.bookId,
+        });
+        ratingAlert();
+        setRating('');
+        console.log('Rating submitted successfully');
+      } catch (error) {
+        console.log('Something went wrong:', error);
+      }
+    } else {
+      ratingError();
+    }
+  };
+
+  const ratingAlert = () => {
+    Swal.fire({
+      title: 'Rating Done successfully',
+      text: 'Thank you for giving a rating',
+      icon: 'success',
+    });
+  };
+
+  const ratingError = () => {
+    Swal.fire({
+      title: 'Error',
+      text: 'Please select a rating',
+      icon: 'error',
+    });
+  };
+
+  return (
+    <div className="orders-container">
+      <h1>My Orders</h1>
+      <div className="approved-orders">
+        <h2>ReadOuts Orders</h2>
+        {orders.length === 0 ? (
+          <p className="text-danger center">No results found</p>
+        ) : (
+          orders.map((order) => (
+            order.isApproved && (
+              <div key={order.id} className="order-details">
+                <img src={order.book.image} alt="Book Image" />
+                <div className="order-info">
+                  <p>
+                    <b>Book Name:</b> {order.book.title}<br />
+                    <b>Email:</b> {order.user.email}<br />
+                    <b>Contact No:</b> {order.user.mobile}<br />
+                    <b>Order Date:</b> {formatDate(order.createdOn)}<br />
+                    <b>Last Return Date:</b> {formatDate(order.retrunOn)}<br />
+                    <b>Book Status:</b> Done<br />
+                    <p>Book Ratings</p>
+      <ul>
+        {ratings.map(rating => (
+          <li>
+           Rating Value: {rating.booksratingValue}
+          </li>
+        ))}
+      </ul>
+                    <div className="rating-stars">
+                    <b>Give Rating:</b>
+                    {
+                      Array.from({ length: 5 },(_, index) => index + 1).map((ratingValue) => (
+                     <FontAwesomeIcon
+                      key={ratingValue}
+                     icon={faStar}
+                      className={`star-icon ${rating[order.id] >= ratingValue ? 'selected' : 'unselected'}`}
+                        onClick={() => handleRatingChange(ratingValue, order)}
+                 />
+                        ))
+                      }
+                    </div>
+                    <button onClick={(e) => handleSubmit(e, order)}>Submit</button>
+                  </p>
+                </div>
+              </div>
+            )
+          ))
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default Myreadouts;

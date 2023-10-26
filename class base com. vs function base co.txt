@@ -1,0 +1,60 @@
+class base com. vs function base com.
+
+1. Syntax:
+
+Class-Based Components: Defined using the class keyword and extend the React.Component class. They include constructor, render, and lifecycle methods.
+Function-Based Components: Defined as regular JavaScript functions. They use the return statement to describe the component's UI.
+2. State Management:
+
+Class-Based Components: Manage state using the this.state object and update it using this.setState().
+Function-Based Components: Use the useState hook to manage state within the functional component itself.
+3. Lifecycle Methods:
+
+Class-Based Components: Use lifecycle methods like componentDidMount, componentDidUpdate, and componentWillUnmount.
+Function-Based Components: Use the useEffect hook to handle side effects and lifecycle-like behaviors.
+4. Code Organization:
+
+Class-Based Components: Tend to have a more complex structure with methods, state, and lifecycle methods often intermixed.
+Function-Based Components: Usually have a simpler and more linear structure, which can make the code easier to read and understand.
+5. Reusability:
+
+Class-Based Components: Can be less reusable since they often bundle logic and rendering together.
+Function-Based Components: Promote better code reusability through custom hooks and the separation of concerns.
+6. Performance:
+
+Class-Based Components: Sometimes cause unnecessary re-renders due to the way bindings are handled in JavaScript classes.
+Function-Based Components: Hooks like useMemo and useCallback can be used to optimize and control re-renders.
+7. Learning Curve:
+
+Class-Based Components: Might have a steeper learning curve due to the complexities of classes, inheritance, and lifecycle methods.
+Function-Based Components: Tend to have a lower learning curve, especially for developers already familiar with JavaScript and functional programming concepts.
+8. Modernity:
+
+Class-Based Components: Considered an older approach, although still widely used in existing codebases.
+Function-Based Components: Considered a more modern approach and recommended for new development.
+9. Community Trends:
+
+Class-Based Components: Decreasing in popularity as the React community adopts function-based components with hooks.
+Function-Based Components: Gaining widespread adoption due to their simplicity and modern development patterns.
+In general, function-based components with hooks are preferred for new React projects due to their simplicity, modularity, and alignment with modern JavaScript practices. However, class-based components are still relevant, especially when working with legacy codebases or specific use cases that require complex state management and lifecycle control.
+
+
+
+
+
+State Management: In class component hook which is managed using this.state and this.setstate methods. by using this we manipulate data in component
+
+
+Lifecycle Methods: Class components have access to lifecycle methods like componentDidMount, componentDidUpdate, and componentWillUnmount. These methods can be used to perform actions at different stages of the component's lifecycle.
+
+Complex State Logic: If your component involves complex state management and logic, class components can be more organized and easier to maintain due to their object-oriented nature.
+
+Function-Based Components with Hooks:
+
+Simplicity: Function-based components with hooks provide a simpler and more concise way of writing components. Hooks like useState, useEffect, useContext, etc., enable you to manage state and side effects directly within the component function.
+
+Code Reusability: Hooks allow you to extract and reuse stateful logic across multiple components using custom hooks. This promotes code reusability and maintainability.
+
+Functional Programming: Function components align well with the principles of functional programming, making the code easier to reason about and test.
+
+Performance Optimization: React introduced optimizations like the useMemo and useCallback hooks to optimize re-renders and function re-creation, respectively.

@@ -1,0 +1,13 @@
+Date: - 04/07/2023
+I worked on: - Extension
+
+Successes :-
+- Studied about how to create a chrome extension.
+- Implemented this task on chrome 
+- Implemented live update of cricket match extension.
+-Implemented chrome history delete by extension.
+
+Obstacle :- N/A
+- 
+ Next-day plan :- 
+- Will be Working on Remaining Tasks.

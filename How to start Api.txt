@@ -1,0 +1,19 @@
+How to start Api
+1.create project
+2.NuGet package-tools,sqlserver,efcore
+3.appsetting
+
+"ConnectionStrings": {
+    "constr": "Server=(localdb)\\mssqllocaldb;Database=LibraryTaskChecking;Trusted_Connection=True;MultipleActiveResultSets=true"
+  },
+4. add folder =Data 
+5.In Data folder add class Applicationdbcontext
+6.Public class ApplicationDbcontext:DbContext
+    {
+        public ApplicationDbcontext(DbContextOptions<ApplicationDbcontext> options) : base(options)
+        { }
+    }
+
+7.Now go to program.cs and add this lines in no. 4
+string cs = builder.Configuration.GetConnectionString("constr");
+builder.Services.AddDbContext<ApplicationDbcontext>(options=>options.UseSqlServer(cs));

@@ -1,0 +1,171 @@
+react method
+
+const [user, setUser] = useState({
+    //Id: 0,
+    Name: '',
+    Address: '',
+    Email: '',
+    //Password: '',
+    Role: '',
+    Token: '',
+  });
+
+
+ const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      if (!user.Name || !user.Address || !user.Email) {
+        setErrors({
+          Name: user.Name ? '' : 'Name is required',
+          Address: user.Address ? '' : 'Address is required',
+          Email: user.Email ? '' : 'Email is required',
+        });
+        return;
+      }
+      const response = await axios.post('https://localhost:7014/api/User/register', user);
+      Swal.fire('Success!', 'User created successfully.', 'success');
+    } catch (error) {
+      Swal.fire('Error!', 'An error occurred while creating the user.', 'error');
+    }
+  };
+  
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setUser((prevUser) => ({
+      ...prevUser,
+      [name]: value,
+    }));
+  };
+   <input
+              type="text"
+              className={`form-control ${errors.Address ? 'is-invalid' : ''}`}
+              name="Address"
+              placeholder="Enter the Address"
+              onChange={handleInputChange}
+            />                                                                                  
+
+
+
+
+
+
+const [booksratingValue, setbooksratingValue] = useState('');
+  const [userId,setUserId]=useState('');
+  const [bookId,setBookid]=useState('');
+
+
+
+
+const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await axios.post('https://localhost:7247/api/Rating', {
+        booksratingValue,
+        userId,
+        bookId,
+      });
+      console.log('All ok');
+    } catch{
+      console.log('something wrong');
+
+    }
+  };
+
+
+  <form>
+                <input type='number' value={booksratingValue}  onChange={(e) => setbooksratingValue(parseInt(e.target.value))}/>
+                <input type='number' value={userId} onChange={(e)=>setUserId(e.target.value)}/>
+                <input type='number' value={bookId} onChange={(e)=>setBookid(e.target.value)}/>
+                 <button onClick={handleSubmit}>submit</button>
+                </form>
+
+
+
+
+
+
+
+
+
+
+ const [editForm, setEditForm] = useState({
+    title: '',
+    author: '',
+    price: '',
+    ordered: false,
+    category: '',
+    available: false,
+    image: null,
+    quantity: '',
+  });
+  const [addForm, setAddForm] = useState({
+    title: '',
+    author: '',
+    price: '',
+    ordered: false,
+    category: '',
+    available: false,
+    image: null,
+    quantity: '',
+  });
+
+
+const handleEditSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      await axios.put(`https://localhost:7247/api/Books`, editForm);
+      setBooks((prevBooks) =>
+        prevBooks.map((book) => (book.id === editBookId ? editForm : book))
+      );
+      setEditBookId(null);
+      setEditForm({
+        title: '',
+        author: '',
+        price: '',
+        ordered: false,
+        category: '',
+        available: false,
+        image: null,
+        quantity: '',
+      });
+    } catch (error) {
+      console.error('Error updating book:', error);
+    }
+  };
+
+
+
+
+  const handleAddSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      await axios.post('https://localhost:7247/api/Books', addForm);
+      getAllBooks();
+      setAddForm({
+        title: '',
+        author: '',
+        price: '',
+        ordered: false,
+        category: '',
+        available: false,
+        image: null,
+        quantity: '',
+      });
+    } catch (error) {
+      console.error('Error adding book:', error);
+    }
+  };
+
+  const handleAddInputChange = (event) => {
+    const { name, value } = event.target;
+    setAddForm({ ...addForm, [name]: value });
+  };
+
+
+              <input
+                type="text"
+                name="title"
+                value={addForm.title}
+                onChange={handleAddInputChange}
+                className="form-control"
+              />

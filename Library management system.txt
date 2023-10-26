@@ -1,0 +1,11 @@
+Library management system
+
+1.jb user register krega tb email send hogi user ko us email say user password set krega.
+2. Total 3 role honge ik admin ,student,teacher jb bi koi register krega to uska role student hoga, admin hi student  ka role teacher krr skta hai.
+3. Admin user ko block krr skta hai jb user block hoga to bo book order kush nhi krr skta.
+4.Jb user book order krega to usko wait krna pdega book approve hone ka jb tk admin book aprove nhi krta tb tk user ko book issue nhi hogi.
+5.jb user book order krega to usko return date add krni pdegi order mai ,or agar user khud bo book return nhi krta to bo book automatically remove ho jayegi user k orders say.
+6.Jo books user phlye pdd chuka hai bo books user k readouts mai show hongi.
+7. Admin hi books add or approve kr skta hai.
+8.Login jwt token say kiya hai.
+9.Agar kisi book ki quantity 3 hai humare pass or bo kisi or ko approve hai to apply button ki jgh date show ho ki kb book aayegi.

@@ -1,0 +1,13 @@
+How to start react program
+
+
+
+make folder 
+go on path cmd 
+ and 
+   npx create-react-app my-react-app
+
+cd my-react-app
+Run this command to run the React application my-react-app:
+
+npm start

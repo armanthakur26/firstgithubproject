@@ -1,0 +1,287 @@
+edit code
+ 
+import React, { Component } from 'react';
+// import axios from 'axios';
+
+// class Reacttable extends Component {
+//   constructor(props) {
+//     super(props);
+//     this.state = {
+//       shipments: [],
+//       newShipment: {
+//         name: '',
+//         quantity: 0,
+//         image: null,
+//       },
+//       editingShipmentId: null,
+//       editedShipmentData: {},
+//     };
+//   }
+
+//   componentDidMount() {
+//     this.getShipments();
+//   }
+
+//   getShipments() {
+//     axios
+//       .get('https://localhost:7225/api/Shipment')
+//       .then((response) => {
+//         this.setState({ shipments: response.data });
+//         console.log(response.data);
+//       })
+//       .catch((error) => {
+//         console.log(error);
+//       });
+//   }
+
+//   addInput = (e) => {
+//     const { name, value } = e.target;
+//     this.setState((prevState) => ({
+//       newShipment: { ...prevState.newShipment, [name]: value },
+//     }));
+//   }
+
+//   handleAddImageChange = (event) => {
+//     const imageFile = event.target.files[0];
+//     const reader = new FileReader();
+
+//     reader.onloadend = () => {
+//       this.setState((prevState) => ({
+//         newShipment: { ...prevState.newShipment, image: reader.result },
+//       }));
+//     };
+
+//     if (imageFile) {
+//       reader.readAsDataURL(imageFile);
+//     }
+//   }
+
+//   handleSubmit = async (e) => {
+//     e.preventDefault();
+//     const { name, quantity, image } = this.state.newShipment;
+
+//     try {
+//       const response = await axios.post('https://localhost:7225/api/Shipment', {
+//         name,
+//         quantity,
+//         image,
+//       });
+
+//       this.setState((prevState) => ({
+//         shipments: [...prevState.shipments, response.data],
+//         newShipment: {
+//           name: '',
+//           quantity: 0,
+//           image: null,
+//         },
+//       }));
+//     } catch (error) {
+//       console.error('Error adding shipment:', error);
+//     }
+//   }
+
+//   handleSaveEdit = async () => {
+//     const { editingShipmentId, editedShipmentData } = this.state;
+
+//     try {
+//       await axios.put(`https://localhost:7225/api/Shipment?id=${editingShipmentId}`, editedShipmentData);
+
+//       this.setState((prevState) => ({
+//         shipments: prevState.shipments.map((shipment) =>
+//           shipment.id === editingShipmentId ? { ...shipment, ...editedShipmentData } : shipment
+//         ),
+//         editingShipmentId: null,
+//         editedShipmentData: {},
+//       }));
+//     } catch (error) {
+//       console.error('Error saving edit:', error);
+//     }
+//   }
+
+//   handleDelete = async (shipmentId) => {
+//     try {
+//       await axios.delete(`https://localhost:7225/api/Shipment?id=${shipmentId}`);
+//       this.setState((prevState) => ({
+//         shipments: prevState.shipments.filter((shipment) => shipment.id !== shipmentId),
+//       }));
+//     } catch (error) {
+//       console.error('Error deleting shipment:', error);
+//     }
+//   }
+
+//   handleEditClick = (shipmentId) => {
+//     const shipmentToEdit = this.state.shipments.find((shipment) => shipment.id === shipmentId);
+//     this.setState({
+//       editingShipmentId: shipmentId,
+//       editedShipmentData: {
+//         id: shipmentId, // Include the id in the edited data
+//         name: shipmentToEdit.name,
+//         quantity: shipmentToEdit.quantity,
+//         image: shipmentToEdit.image,
+//       },
+//     });
+//   }
+//   addInput = (e) => {
+//     const { name, value } = e.target;
+//     this.setState((prevState) => ({
+//       newShipment: { ...prevState.newShipment, [name]: value },
+//     }));
+//   }
+
+//   handleEditInputChange = (e, field) => {
+//     const { value } = e.target;
+//     this.setState((prevState) => ({
+//       editedShipmentData: { ...prevState.editedShipmentData, [field]: value },
+//     }));
+//   }
+
+//   handleCancelEdit = () => {
+//     this.setState({
+//       editingShipmentId: null,
+//       editedShipmentData: {},
+//     });
+//   }
+
+//   render() {
+//     return (
+//       <div>
+//         <h1>Shipment</h1>
+//         <form onSubmit={(e) => this.handleSubmit(e)}>
+//           <div>
+//             <label>Name:</label>
+//             <input
+//               type="text"
+//               name="name"
+//               value={
+//                 this.state.editingShipmentId !== null
+//                   ? this.state.editedShipmentData.name
+//                   : this.state.newShipment.name
+//               }
+//               onChange={this.addInput}
+//             />
+//           </div>
+//           <div>
+//             <label>Quantity:</label>
+//             <input
+//               type="number"
+//               name="quantity"
+//               value={
+//                 this.state.editingShipmentId !== null
+//                   ? this.state.editedShipmentData.quantity
+//                   : this.state.newShipment.quantity
+//               }
+//               onChange={this.addInput}
+//             />
+//           </div>
+//           <div>
+//             <label>Image:</label>
+//             <input type="file" onChange={this.handleAddImageChange} />
+//           </div>
+//           <button type="submit">
+//             {this.state.editingShipmentId !== null ? 'Save Edit' : 'Add Shipment'}
+//           </button>
+//           {this.state.editingShipmentId !== null && (
+//             <button type="button" onClick={this.handleCancelEdit}>
+//               Cancel
+//             </button>
+//           )}
+//         </form>
+//         <table className="user-table">
+//           <thead>
+//             <tr>
+//               <th></th>
+//               <th>
+//                 <div className="form-check">
+//                   <input
+//                     className="form-check-input"
+//                     type="checkbox"
+//                     value=""
+//                     id="flexCheckDefault"
+//                   />
+//                   <label className="form-check-label" htmlFor="flexCheckDefault">
+//                     Default checkbox
+//                   </label>
+//                 </div>
+//               </th>
+//               <th>Name</th>
+//               <th>Quantity</th>
+//               <th>Image</th>
+//               <th>Actions</th>
+//             </tr>
+//           </thead>
+//           <tbody>
+//             {this.state.shipments.map((shipment, index) => (
+//               <tr key={index}>
+//                 <td>
+//                   <details>
+//                     <summary></summary>
+//                     <p>
+//                       <td>{shipment.name}</td>
+//                       <td>{shipment.quantity}</td>
+//                     </p>
+//                   </details>
+//                 </td>
+//                 <td>
+//                   <div className="form-check">
+//                     <input
+//                       className="form-check-input"
+//                       type="checkbox"
+//                       value=""
+//                       id={`flexCheckDefault_${shipment.id}`}
+//                     />
+//                     <label
+//                       className="form-check-label"
+//                       htmlFor={`flexCheckDefault_${shipment.id}`}
+//                     />
+//                   </div>
+//                 </td>
+//                 <td>
+//                   {this.state.editingShipmentId === shipment.id ? (
+//                     <input
+//                       type="text"
+//                       value={this.state.editedShipmentData.name}
+//                       onChange={(e) => this.handleEditInputChange(e, 'name')}
+//                     />
+//                   ) : (
+//                     shipment.name
+//                   )}
+//                 </td>
+//                 <td>
+//                   {this.state.editingShipmentId === shipment.id ? (
+//                     <input
+//                       type="number"
+//                       value={this.state.editedShipmentData.quantity}
+//                       onChange={(e) => this.handleEditInputChange(e, 'quantity')}
+//                     />
+//                   ) : (
+//                     shipment.quantity
+//                   )}
+//                 </td>
+//                 <td>
+//                   <img className="img-style" src={shipment.image} alt={`Cover of ${shipment.name}`} />
+//                 </td>
+//                 <td>
+//                   {this.state.editingShipmentId === shipment.id ? (
+//                     <div>
+//                       <button onClick={() => this.handleSaveEdit(shipment.id)}>Save</button>
+//                       <button onClick={this.handleCancelEdit}>Cancel</button>
+//                     </div>
+//                   ) : (
+//                     <div>
+//                       <button onClick={() => this.handleEditClick(shipment.id)}>Edit</button>
+//                       <button type="button" onClick={() => this.handleDelete(shipment.id)}>
+//                         Delete
+//                       </button>
+//                     </div>
+//                   )}
+//                 </td>
+//               </tr>
+//             ))}
+//           </tbody>
+//         </table>
+//       </div>
+//     );
+//   }
+// }
+
+// export default Reacttable;  
